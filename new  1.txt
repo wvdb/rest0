@@ -1,0 +1,4 @@
+mongodump -h ds033599.mongolab.com:33599 -d ictdynamic -c employee -u user1 -p user15905 -o .
+
+mongorestore -h localhost:33599 -d ictdynamic bin\employee.bson
+
