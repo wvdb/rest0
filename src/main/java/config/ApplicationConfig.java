@@ -14,38 +14,44 @@ import org.springframework.core.env.Environment;
 public class ApplicationConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     private Environment environment;
 
-    @Bean
-    public String MongoClientURIProperty() {
-        return environment.getProperty("mongoClientURI");
+    public ApplicationConfig() {
+        LOGGER.debug(">>>Object ApplicationConfig instantiated");
     }
 
     @Bean
     @Profile("local")
-    public ApplicationConfigBean applicationConfigBeanLocal() {
-        String mongoClientURI = null;
-        ApplicationConfigBean applicationConfigBean = new ApplicationConfigBean();
+    public MongoConfigBean applicationConfigBeanLocal() {
+        LOGGER.info(">>>executing applicationConfigBeanLocal");
 
-        if (environment != null) {
-            mongoClientURI = environment.getProperty("mongoClientURI.local");
-            applicationConfigBean.setMongoClientURI(mongoClientURI);
-        }
+        LOGGER.info(">>>Value of local environment.getProperty(\"mongoClientURI\") = " + environment.getProperty("mongoClientURI.local"));
+        String mongoClientURI = environment.getProperty("mongoClientURI.local");
+        MongoConfigBean mongoConfigBean = new MongoConfigBean();
+        mongoConfigBean.setMongoClientURI(mongoClientURI);
 
-        return applicationConfigBean;
+        return mongoConfigBean;
     }
 
     @Bean
     @Profile("cloud")
-    public ApplicationConfigBean applicationConfigBeanCloud() {
+    public MongoConfigBean applicationConfigBeanCloud() {
         String mongoClientURI = null;
-        ApplicationConfigBean applicationConfigBean = new ApplicationConfigBean();
-        if (environment != null) {
-            mongoClientURI = environment.getProperty("mongoClientURI.cloud");
-            applicationConfigBean.setMongoClientURI(mongoClientURI);
-        }
-        return applicationConfigBean;
+
+        LOGGER.info(">>>Value of cloud environment.getProperty(\"mongoClientURI\") = " + environment.getProperty("mongoClientURI.cloud"));
+        mongoClientURI = environment.getProperty("mongoClientURI.cloud");
+        MongoConfigBean mongoConfigBean = new MongoConfigBean(mongoClientURI);
+        mongoConfigBean.setMongoClientURI(mongoClientURI);
+
+        return mongoConfigBean;
     }
+
+    @Bean
+    public DummyBean1 dummy() {
+        LOGGER.info(">>>instantiating DummyBean1");
+        DummyBean1 dummyBean1 = new DummyBean1("a b c");
+        return dummyBean1;
+    }
+
 }
