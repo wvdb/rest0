@@ -1,8 +1,11 @@
-package hello;
+package be.ictdynamic.server;
 
-import domain.Employee;
+import be.ictdynamic.domain.Employee;
+import be.ictdynamic.domain.Greeting;
+import be.ictdynamic.serverImpl.BackendImplFinal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import server.BackendImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +25,9 @@ public class GreetingController {
 
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
-
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    @Autowired
+    private BackendImplFinal backendImplFinal;
 
     @RequestMapping(value = "/greeting", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Greeting greeting(@RequestParam(value = "commune1", defaultValue = "World") String name) {
@@ -37,12 +40,12 @@ public class GreetingController {
         List<Employee> employeeList = new ArrayList<>();
 
         try {
-            BackendImpl backendImpl = new BackendImpl();
-            employeeList = backendImpl.getEmployees();
+            // NIET DOEN : BackendImplFinal moet gewired zijn en moet een component zijn !!!
+            // BackendImplFinal backendImplFinal = new BackendImplFinal();
+            employeeList = backendImplFinal.getEmployees();
         }
         catch (Exception e) {
             LOGGER.error(">>>Fatal Error : " + e);
-            e.printStackTrace();
         }
         return employeeList;
     }

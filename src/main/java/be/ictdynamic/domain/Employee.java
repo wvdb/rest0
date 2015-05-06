@@ -1,4 +1,4 @@
-package domain;
+package be.ictdynamic.domain;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -32,6 +32,29 @@ public class Employee {
     @NotNull
     @Length(min=1)
     protected String country2;
+    @NotNull
+    protected Double latitude;
+    @NotNull
+    protected Double longitude;
+    @NotNull
+    @Size(min = 1)
+    protected Map<String, Integer> durationMap = new HashMap<>();
+    @NotNull
+    @Size(min = 1)
+    protected Map<String, Integer> distanceMap = new HashMap<>();
+
+    public Employee(String commune1, String address1, String country1, String commune2, String address2, String country2, Double latitude, Double longitude, Map<String, Integer> durationMap, Map<String, Integer> distanceMap) {
+        this.commune1 = commune1;
+        this.address1 = address1;
+        this.country1 = country1;
+        this.commune2 = commune2;
+        this.address2 = address2;
+        this.country2 = country2;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.durationMap = durationMap;
+        this.distanceMap = distanceMap;
+    }
 
     public String getCountry1() {
         return country1;
@@ -63,33 +86,6 @@ public class Employee {
 
     public void setCountry2(String country2) {
         this.country2 = country2;
-    }
-
-    @NotNull
-    protected Double latitude;
-
-    @NotNull
-    protected Double longitude;
-
-    @NotNull
-    @Size(min=1)
-    protected Map<String, Integer> durationMap = new HashMap<>();
-
-    @NotNull
-    @Size(min=1)
-    protected Map<String, Integer> distanceMap = new HashMap<>();
-
-    public Employee(String commune1, String address1, String country1, String commune2, String address2, String country2, Double latitude, Double longitude, Map<String, Integer> durationMap, Map<String, Integer> distanceMap) {
-        this.commune1 = commune1;
-        this.address1 = address1;
-        this.country1 = country1;
-        this.commune2 = commune2;
-        this.address2 = address2;
-        this.country2 = country2;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.durationMap = durationMap;
-        this.distanceMap = distanceMap;
     }
 
     public String getCommune1() {
