@@ -44,6 +44,7 @@ public class GreetingController {
             // NIET DOEN : BackendImplFinal moet gewired zijn en moet een component zijn !!!
             // BackendImplFinal backendImplFinal = new BackendImplFinal();
             employeeList = backendImplFinal.getEmployees();
+            backendImplFinal.createCustomer();
         }
         catch (Exception e) {
             LOGGER.error(">>>Fatal Error : " + e);

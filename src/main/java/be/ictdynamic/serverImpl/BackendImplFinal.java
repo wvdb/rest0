@@ -2,6 +2,7 @@ package be.ictdynamic.serverImpl;
 
 
 import be.ictdynamic.config.MongoConfigBean;
+import be.ictdynamic.domain.Customer;
 import be.ictdynamic.domain.DummyBean1;
 import be.ictdynamic.domain.DummyBean2;
 import be.ictdynamic.domain.DummyEmployee;
@@ -38,6 +39,21 @@ public final class BackendImplFinal {
     @Qualifier("LocalMongoConfigBean")
     private MongoConfigBean mongoConfigBean;
 
+    @Autowired
+    private CustomerRepository repository;
+
+    public void createCustomer() throws Exception {
+        LOGGER.info("createCustomer() started");
+
+        // save a couple of customers
+        repository.save(new Customer("Alice", "Smith"));
+        repository.save(new Customer("Bob", "Smith"));
+
+        for (Customer customer : repository.findAll()) {
+            LOGGER.info(">>>" + customer);
+        }
+    }
+
     public List<Employee> getEmployees() throws UnknownHostException {
         LOGGER.info("getEmployees() started");
 
@@ -62,12 +78,11 @@ public final class BackendImplFinal {
         }
         else {
             LOGGER.warn("Value of dummyBean1 is null");
-        } */
+        }
 
-//        ApplicationContext context2 = new AnnotationConfigApplicationContext(ApplicationConfig.class);
-//
-//        DummyBean1 dummyBean1 = context2.getBean(DummyBean1.class);
-//
+        ApplicationContext context2 = new AnnotationConfigApplicationContext(ApplicationConfig.class);
+
+        DummyBean1 dummyBean1 = context2.getBean(DummyBean1.class); */
 
         String mongoClientURIString = null;
 
