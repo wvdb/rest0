@@ -1,4 +1,4 @@
-package hello;
+package be.ictdynamic.domain;
 
 public class Greeting {
 
