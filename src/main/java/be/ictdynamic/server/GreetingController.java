@@ -31,7 +31,7 @@ public class GreetingController {
     private BackendImplFinal backendImplFinal;
 
     @RequestMapping(value = "/greeting", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Greeting greeting(@RequestParam(value = "commune1", defaultValue = "World") String name) {
+    public Greeting greeting(@RequestParam(value = "commune1", defaultValue = "Hellow World") String name) {
         return new Greeting(counter.incrementAndGet(),
                 String.format(template, name));
     }
