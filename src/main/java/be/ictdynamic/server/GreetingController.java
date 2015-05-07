@@ -26,6 +26,7 @@ public class GreetingController {
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private BackendImplFinal backendImplFinal;
 
