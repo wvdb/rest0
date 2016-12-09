@@ -1,12 +1,7 @@
 package server;
 
 
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
+import com.mongodb.*;
 import config.ApplicationConfig;
 import config.ApplicationConfigBean;
 import domain.Employee;
@@ -20,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BackendImpl {
 
@@ -32,8 +28,8 @@ public class BackendImpl {
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
-    public List<Employee> getEmployees() throws UnknownHostException {
-        LOGGER.debug("getEmployees() started");
+    public List<Employee> getAllEmployees() throws UnknownHostException {
+        LOGGER.debug("getAllEmployees() started");
 
 //        if (environment == null) {
 //            LOGGER.debug("Value of environment is null");
@@ -59,14 +55,49 @@ public class BackendImpl {
 
         LOGGER.debug("Value of mongoClientURI = " + mongoClientURIString);
 
+        return getAllEmployees(mongoClientURIString);
+    }
+
+    public Employee getEmployee(Integer id) throws UnknownHostException {
+        LOGGER.debug(String.format("getEmployee(%s) started", id));
+
+        ApplicationContext ctx =
+                new AnnotationConfigApplicationContext(ApplicationConfig.class);
+
+        ApplicationConfigBean applicationConfigBean = ctx.getBean(ApplicationConfigBean.class);
+
+        String mongoClientURIString = null;
+
+        LOGGER.debug("Value of mongoClientURIProperty = " + ctx.getBean("MongoClientURIProperty"));
+
+        LOGGER.debug("Value of applicationConfigBean = " + applicationConfigBean);
+        if (applicationConfigBean != null) {
+            mongoClientURIString = applicationConfigBean.getMongoClientURI();
+        }
+
+        LOGGER.debug("Value of mongoClientURI = " + mongoClientURIString);
+
+        //TODO : java 8 and filtering on id
+        List<Employee> employees = getAllEmployees(mongoClientURIString);
+        if (id <= employees.size()) {
+            // spelen met streams
+//            return getAllEmployees(mongoClientURIString).get(id);
+//            return (Employee) employees.stream().filter(e -> "Belgium".equals(e.getCountry1())).toArray()[0];
+            return employees.stream().filter(e -> "Belgium".equals(e.getCountry1())).collect(Collectors.toCollection(ArrayList::new)).get(id);
+        }
+        else {
+            return null;
+        }
+    }
+
+    private List<Employee> getAllEmployees(String mongoClientURIString) throws UnknownHostException {
         MongoClientURI uri = new MongoClientURI(mongoClientURIString);
         MongoClient mongoClient = new MongoClient(uri);
         DB db = mongoClient.getDB(uri.getDatabase());
         List<Employee> employeeList = new ArrayList<>();
 
         DBCollection dbCollection = db.getCollection("employee");
-        DBCursor dbCursor = dbCollection.find();
-        try {
+        try (DBCursor dbCursor = dbCollection.find()) {
             while (dbCursor.hasNext()) {
                 DBObject dbobject = dbCursor.next();
 
@@ -79,19 +110,17 @@ public class BackendImpl {
                 distanceMap.put("DistanceCar", (Integer) dbobject.get("DistanceCar"));
                 distanceMap.put("DistanceBike", (Integer) dbobject.get("DistanceBike"));
 
-                Employee employee = new Employee(     (String) dbobject.get("Commune1"), (String) dbobject.get("Address1"), (String) dbobject.get("Country1")
-                                                    , (String) dbobject.get("Commune2"), (String) dbobject.get("Address2"), (String) dbobject.get("Country2")
-                                                    , (Double) dbobject.get("Latitude"), (Double) dbobject.get("Longitude"), durationMap, distanceMap);
+                Employee employee = new Employee((String) dbobject.get("Commune1"), (String) dbobject.get("Address1"), (String) dbobject.get("Country1")
+                        , (String) dbobject.get("Commune2"), (String) dbobject.get("Address2"), (String) dbobject.get("Country2")
+                        , (Double) dbobject.get("Latitude"), (Double) dbobject.get("Longitude"), durationMap, distanceMap);
 
                 employeeList.add(employee);
             }
-        }
-        finally {
-            dbCursor.close();
         }
 
         mongoClient.close();
 
         return employeeList;
     }
+
 }

@@ -33,12 +33,27 @@ public class GreetingController {
     }
 
     @RequestMapping(value = "/employee/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Employee> getEmployee(@PathVariable Integer id) {
+    public Employee getEmployee(@PathVariable Integer id) {
+        Employee employee = null;
+
+        try {
+            BackendImpl backendImpl = new BackendImpl();
+            employee = backendImpl.getEmployee(id);
+        }
+        catch (Exception e) {
+            LOGGER.error(">>>Fatal Error : " + e);
+            e.printStackTrace();
+        }
+        return employee;
+    }
+
+    @RequestMapping(value = "/employees/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Employee> getEmployees(@PathVariable Integer id) {
         List<Employee> employeeList = new ArrayList<>();
 
         try {
             BackendImpl backendImpl = new BackendImpl();
-            employeeList = backendImpl.getEmployees();
+            employeeList = backendImpl.getAllEmployees();
         }
         catch (Exception e) {
             LOGGER.error(">>>Fatal Error : " + e);
@@ -46,5 +61,4 @@ public class GreetingController {
         }
         return employeeList;
     }
-
 }
