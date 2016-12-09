@@ -77,7 +77,6 @@ public class BackendImpl {
 
         LOGGER.debug("Value of mongoClientURI = " + mongoClientURIString);
 
-        //TODO : java 8 and filtering on id
         List<Employee> employees = getAllEmployees(mongoClientURIString);
         if (id <= employees.size()) {
             // spelen met streams
