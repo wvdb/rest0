@@ -1,6 +1,7 @@
 package hello;
 
 import domain.Employee;
+import domain.Greeting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import server.BackendImpl;
+import dao.EmployeeDaoImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @ResponseStatus(HttpStatus.OK)
-public class GreetingController {
+public class Rest0Controller {
 
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
@@ -37,7 +38,7 @@ public class GreetingController {
         Employee employee = null;
 
         try {
-            BackendImpl backendImpl = new BackendImpl();
+            EmployeeDaoImpl backendImpl = new EmployeeDaoImpl();
             employee = backendImpl.getEmployee(id);
         }
         catch (Exception e) {
@@ -47,12 +48,12 @@ public class GreetingController {
         return employee;
     }
 
-    @RequestMapping(value = "/employees/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Employee> getEmployees(@PathVariable Integer id) {
+    @RequestMapping(value = "/employees", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Employee> getEmployees() {
         List<Employee> employeeList = new ArrayList<>();
 
         try {
-            BackendImpl backendImpl = new BackendImpl();
+            EmployeeDaoImpl backendImpl = new EmployeeDaoImpl();
             employeeList = backendImpl.getAllEmployees();
         }
         catch (Exception e) {

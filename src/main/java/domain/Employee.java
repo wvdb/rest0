@@ -1,12 +1,14 @@
 package domain;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashMap;
 import java.util.Map;
 
+@Repository
 public class Employee {
 
     @NotNull
