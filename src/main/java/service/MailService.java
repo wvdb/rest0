@@ -31,7 +31,7 @@ public class MailService {
             helper.setSubject(simpleMailMessage.getSubject());
             helper.setText(String.format(simpleMailMessage.getText(), title, day));
 
-            FileSystemResource file = new FileSystemResource("C:\\temp\\new 1.txt");
+            FileSystemResource file = new FileSystemResource("C:\\temp\\new.txt");
             helper.addAttachment(file.getFilename(), file);
 
         } catch (MessagingException e) {

@@ -1,4 +1,4 @@
-package server;
+package dao;
 
 
 import com.mongodb.*;
@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.mail.MailException;
-import org.springframework.stereotype.Repository;
 import service.MailService;
 
 import java.net.UnknownHostException;
@@ -22,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class BackendImpl {
+public class EmployeeDaoImpl implements EmployeeDao {
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
@@ -60,7 +59,6 @@ public class BackendImpl {
             // spelen met streams
 //            return getAllEmployees(mongoClientURIString).get(id);
 //            return (Employee) employees.stream().filter(e -> "Belgium".equals(e.getCountry1())).toArray()[0];
-            return employees.stream().filter(e -> "België".equals(e.getCountry1())).collect(Collectors.toCollection(ArrayList::new)).get(id);
             this.dummyEmail();
             return employees.stream().filter(e -> "België".equals(e.getCountry1())).collect(Collectors.toList()).get(id);
         }

@@ -1,18 +1,14 @@
 package hello;
 
+import dao.EmployeeDao;
+import dao.EmployeeDaoImpl;
 import domain.Employee;
 import domain.Greeting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import dao.EmployeeDaoImpl;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +34,8 @@ public class Rest0Controller {
         Employee employee = null;
 
         try {
-            EmployeeDaoImpl backendImpl = new EmployeeDaoImpl();
-            employee = backendImpl.getEmployee(id);
+            EmployeeDao employeeDao = new EmployeeDaoImpl();
+            employee = employeeDao.getEmployee(id);
         }
         catch (Exception e) {
             LOGGER.error(">>>Fatal Error : " + e);
@@ -53,8 +49,8 @@ public class Rest0Controller {
         List<Employee> employeeList = new ArrayList<>();
 
         try {
-            EmployeeDaoImpl backendImpl = new EmployeeDaoImpl();
-            employeeList = backendImpl.getAllEmployees();
+            EmployeeDao employeeDao = new EmployeeDaoImpl();
+            employeeList = employeeDao.getAllEmployees();
         }
         catch (Exception e) {
             LOGGER.error(">>>Fatal Error : " + e);
