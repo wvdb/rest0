@@ -1,6 +1,5 @@
 <component name="libraryTable">
-  <library name="Spring Integration-4.0.3" type="spring-integration">
-    <properties version="4.0.3" />
+  <library name="Spring Integration-4.0.3">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/spring-integration-feed-4.0.3.RELEASE.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/spring-integration-event-4.0.3.RELEASE.jar!/" />

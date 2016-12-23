@@ -1,4 +1,4 @@
-package dao;
+package server;
 
 
 import com.mongodb.*;
@@ -22,8 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Repository
-public class EmployeeDaoImpl implements EmployeeDao {
+public class BackendImpl {
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
@@ -59,6 +58,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
         List<Employee> employees = getAllEmployees("");
         if (id <= employees.size()) {
             // spelen met streams
+//            return getAllEmployees(mongoClientURIString).get(id);
+//            return (Employee) employees.stream().filter(e -> "Belgium".equals(e.getCountry1())).toArray()[0];
+            return employees.stream().filter(e -> "België".equals(e.getCountry1())).collect(Collectors.toCollection(ArrayList::new)).get(id);
             this.dummyEmail();
             return employees.stream().filter(e -> "België".equals(e.getCountry1())).collect(Collectors.toList()).get(id);
         }
