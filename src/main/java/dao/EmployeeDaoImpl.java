@@ -55,11 +55,17 @@ public class EmployeeDaoImpl implements EmployeeDao {
         LOGGER.debug("Resultaat van greeting = " + getGreeting().getContent());
 
         List<Employee> employees = getAllEmployees("");
+
         if (id <= employees.size()) {
+            List<String> communes = employees.stream().map(Employee::getCommune2).distinct().collect(Collectors.toList());
             // spelen met streams
 //            return getAllEmployees(mongoClientURIString).get(id);
 //            return (Employee) employees.stream().filter(e -> "Belgium".equals(e.getCountry1())).toArray()[0];
             this.dummyEmail();
+
+            LOGGER.debug("Communes zijn: " + communes.stream().collect(Collectors.joining(", ")));
+            communes.stream().sorted().forEach(LOGGER::debug);
+
             return employees.stream().filter(e -> "België".equals(e.getCountry1())).collect(Collectors.toList()).get(id);
         }
         else {
