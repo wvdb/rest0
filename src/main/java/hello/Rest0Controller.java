@@ -68,7 +68,7 @@ public class Rest0Controller {
         try {
             context.addRoutes(new RouteBuilder() {
                 public void configure() {
-                    from("file://C:/temp/camel/in?recursive=true&include=*.txt&noop=true")
+                    from("file://C:/temp/camel/in?recursive=true&noop=true")
                             .to("file://C:/temp/camel/out");
                 }
             });

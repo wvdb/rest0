@@ -17,9 +17,7 @@ import java.util.Properties;
  */
 @Configuration
 public class MailConfig {
-    // niet echt nodig omdat we die niet als bean oproepen
-//    @Bean
-    public JavaMailSenderImpl mailSender() {
+    public JavaMailSenderImpl getMailSender() {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
         javaMailSender.setPort(8025);
         javaMailSender.setHost("localhost");
@@ -27,9 +25,7 @@ public class MailConfig {
         return javaMailSender;
     }
 
-    // niet echt nodig omdat we die niet als bean oproepen
-//    @Bean
-    public SimpleMailMessage simpleMailMessage() {
+    public SimpleMailMessage getSimpleMailMessage() {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setTo("wimvandenbrande.home@gmail.com");
         simpleMailMessage.setFrom("wim@hpcds.com");
@@ -40,10 +36,7 @@ public class MailConfig {
 
     @Bean
     public MailService mailService() {
-        MailService mailService = new MailService();
-        mailService.setMailSender(mailSender());
-        mailService.setSimpleMailMessage(simpleMailMessage());
-        return mailService;
+        return new MailService(this.getMailSender(), this.getSimpleMailMessage());
     }
 
     @Bean

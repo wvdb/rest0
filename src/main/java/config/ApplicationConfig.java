@@ -1,7 +1,10 @@
 package config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
 @Configuration
@@ -19,11 +22,11 @@ public class ApplicationConfig {
 //    @Bean
 //    public JavaMailBean myMailBean() {
 //        JavaMailBean javaMailBean = new JavaMailBean();
-//        javaMailBean.setMailSender(this.mailSender());
+//        javaMailBean.setMailSender(this.getMailSender());
 //    }
 //
 //    @Bean
-//    public JavaMailSenderImpl mailSender() {
+//    public JavaMailSenderImpl getMailSender() {
 //        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
 //        javaMailSender.setHost("localhost");
 //        javaMailSender.setPort(8025);
