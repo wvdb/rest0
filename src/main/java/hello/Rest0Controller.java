@@ -4,6 +4,9 @@ import dao.EmployeeDao;
 import dao.EmployeeDaoImpl;
 import domain.Employee;
 import domain.Greeting;
+import org.apache.camel.CamelContext;
+import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.impl.DefaultCamelContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -58,4 +61,23 @@ public class Rest0Controller {
         }
         return employeeList;
     }
+
+    @RequestMapping(value = "/testCamel", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void testCamel() {
+        CamelContext context = new DefaultCamelContext();
+        try {
+            context.addRoutes(new RouteBuilder() {
+                public void configure() {
+                    from("file://C:/temp/camel/in?recursive=true&include=*.txt&noop=true")
+                            .to("file://C:/temp/camel/out");
+                }
+            });
+            context.start();
+            Thread.sleep(10000);
+            context.stop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

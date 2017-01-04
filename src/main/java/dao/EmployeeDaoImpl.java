@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.mail.MailException;
 import service.MailService;
 
 import java.net.UnknownHostException;
@@ -61,7 +60,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
             // spelen met streams
 //            return getAllEmployees(mongoClientURIString).get(id);
 //            return (Employee) employees.stream().filter(e -> "Belgium".equals(e.getCountry1())).toArray()[0];
-            this.dummyEmail();
+
+            // spelen met mailservice
+            try {
+                this.dummyEmail();
+            } catch (Exception e) {
+                LOGGER.error("Exception when sending email: {}", e.getMessage());
+            }
 
             LOGGER.debug("Communes zijn: " + communes.stream().collect(Collectors.joining(", ")));
             communes.stream().sorted().forEach(LOGGER::debug);
@@ -74,16 +79,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     private void dummyEmail() {
-        try {
-            // use FakeSMTP to send an SMTP message : http://nilhcem.github.com/FakeSMTP/
-            getJavaMailSender().sendMail("sir", "monday");
-        } catch (MailException ex) {
-            LOGGER.error("Exception when sending email: {}", ex.getMessage());
-            throw ex;
-        }
+        getMailService().sendMail("sir", "monday");
     }
 
-    private MailService getJavaMailSender() {
+    private MailService getMailService() {
         ApplicationContext ctx = new AnnotationConfigApplicationContext(MailConfig.class);
         MailService mailService =  ctx.getBean(MailService.class);
         LOGGER.debug("mailService = " + mailService);
