@@ -57,11 +57,11 @@ public class Rest0Controller {
         dateFormat3b.setTimeZone(TimeZone.getTimeZone("America/New_York"));
 
         Date date = new Date();
-        System.out.println(dateFormat0.format(date));
-        System.out.println(dateFormat1.format(date));
-        System.out.println(dateFormat2.format(date));
-        System.out.println(dateFormat3a.format(date));
-        System.out.println(dateFormat3b.format(date));
+        System.out.println("new SimpleDateFormat(\"yyyy/MM/dd'T'HH:mm:ss\")     " + dateFormat0.format(date));
+        System.out.println("new SimpleDateFormat(\"yyyy/MM/dd'T'HH:mm:ssz\")    " + dateFormat1.format(date));
+        System.out.println("new SimpleDateFormat(\"yyyy/MM/dd'T'HH:mm:ssZ\")    " + dateFormat2.format(date));
+        System.out.println("new SimpleDateFormat(\"yyyy/MM/dd'T'HH:mm:ssXXX\")  " + dateFormat3a.format(date));
+        System.out.println("new SimpleDateFormat(\"yyyy/MM/dd'T'HH:mm:ssXXX\") - timezone NY" + dateFormat3b.format(date));
 
         Instant instant = Instant.now();
         System.out.println(instant);
@@ -70,7 +70,7 @@ public class Rest0Controller {
 
         try {
             EmployeeDao employeeDao = new EmployeeDaoImpl();
-            employee = employeeDao.getEmployee(id);
+//            employee = employeeDao.getEmployee(id);
         }
         catch (Exception e) {
             LOGGER.error(">>>Fatal Error : " + e);
