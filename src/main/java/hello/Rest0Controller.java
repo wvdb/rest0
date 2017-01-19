@@ -48,6 +48,7 @@ public class Rest0Controller {
         Employee employee = null;
 
 
+        DateFormat dateFormat0 = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ss");
         DateFormat dateFormat1 = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ssz");
         DateFormat dateFormat2 = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ssZ");
         DateFormat dateFormat3a = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ssXXX");
@@ -56,6 +57,7 @@ public class Rest0Controller {
         dateFormat3b.setTimeZone(TimeZone.getTimeZone("America/New_York"));
 
         Date date = new Date();
+        System.out.println(dateFormat0.format(date));
         System.out.println(dateFormat1.format(date));
         System.out.println(dateFormat2.format(date));
         System.out.println(dateFormat3a.format(date));
