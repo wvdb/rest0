@@ -2,7 +2,6 @@ package service;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailParseException;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -20,19 +19,21 @@ public class MailService {
     private JavaMailSender  mailSender;
    	private SimpleMailMessage simpleMailMessage;
 
+    public MailService(JavaMailSender mailSender, SimpleMailMessage simpleMailMessage) {
+        this.mailSender = mailSender;
+        this.simpleMailMessage = simpleMailMessage;
+    }
+
     public void sendMail(String title, String day) {
         MimeMessage message = mailSender.createMimeMessage();
 
         try {
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true);
 
-            helper.setFrom(simpleMailMessage.getFrom());
-            helper.setTo(simpleMailMessage.getTo());
-            helper.setSubject(simpleMailMessage.getSubject());
-            helper.setText(String.format(simpleMailMessage.getText(), title, day));
+            getHelper(mimeMessageHelper, title, day);
 
             FileSystemResource file = new FileSystemResource("C:\\temp\\new.txt");
-            helper.addAttachment(file.getFilename(), file);
+            mimeMessageHelper.addAttachment(file.getFilename(), file);
 
         } catch (MessagingException e) {
             throw new MailParseException(e);
@@ -40,20 +41,11 @@ public class MailService {
         mailSender.send(message);
     }
 
-    public MailSender getMailSender() {
-        return mailSender;
-    }
-
-    public SimpleMailMessage getSimpleMailMessage() {
-        return simpleMailMessage;
-    }
-
-    public void setSimpleMailMessage(SimpleMailMessage simpleMailMessage) {
-        this.simpleMailMessage = simpleMailMessage;
-    }
-
-    public void setMailSender(JavaMailSender  mailSender) {
-        this.mailSender = mailSender;
+    private void getHelper(MimeMessageHelper helper, String title, String day) throws MessagingException {
+        helper.setFrom(simpleMailMessage.getFrom());
+        helper.setTo(simpleMailMessage.getTo());
+        helper.setSubject(simpleMailMessage.getSubject());
+        helper.setText(String.format(simpleMailMessage.getText(), title, day));
     }
 
 }
