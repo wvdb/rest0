@@ -5,6 +5,7 @@ import dao.EmployeeDaoImpl;
 import domain.Employee;
 import domain.Greeting;
 import org.apache.camel.CamelContext;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
@@ -101,6 +102,8 @@ public class Rest0Controller {
             context.addRoutes(new RouteBuilder() {
                 public void configure() {
                     from("file://C:/temp/camel_test_data/in?recursive=true&noop=true&delay=5000")
+                            .routeId("route-wim-0")
+                            .log("${body}")
                             .to("file://C:/temp/camel_test_data/out")
                             .log("Message written in directory C:/temp/camel_test_data/out?showAll=true");
                 }
