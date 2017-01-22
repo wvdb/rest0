@@ -5,12 +5,14 @@ import dao.EmployeeDaoImpl;
 import domain.Employee;
 import domain.Greeting;
 import org.apache.camel.CamelContext;
+import org.apache.camel.Expression;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,6 +34,9 @@ public class Rest0Controller {
     private static final String template = "Hello, %s!";
     public static final int TEN_SECONDS = 10000;
     private final AtomicLong counter = new AtomicLong();
+
+    @Autowired
+    private CamelDummy camelDummy;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
@@ -101,11 +106,22 @@ public class Rest0Controller {
         try {
             context.addRoutes(new RouteBuilder() {
                 public void configure() {
-                    from("file://C:/temp/camel_test_data/in?recursive=true&noop=true&delay=5000")
+
+                    from("file://C:/temp/camel_test_data/in?recursive=true&delete=false&delay=5000")
                             .routeId("route-wim-0")
-                            .log("${body}")
+                            .setHeader("header1", constant("value of header1"))
+                            .setHeader("header2", constant("value of header2"))
+                            .bean(camelDummy, "doSomething")
+                            .log("body = " + "${body}")
+                            .log("id = ${id}")
+                            .log("header 1 = " + "${header.header1}")
+                            .log("header 2 = ${header.header2}")
                             .to("file://C:/temp/camel_test_data/out")
-                            .log("Message written in directory C:/temp/camel_test_data/out?showAll=true");
+                            .log("Message written to out directory");
+                }
+
+                private String method1(String dummy1) {
+                    return "dit is al te gek";
                 }
             });
             context.start();
