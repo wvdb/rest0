@@ -5,8 +5,6 @@ import dao.EmployeeDaoImpl;
 import domain.Employee;
 import domain.Greeting;
 import org.apache.camel.CamelContext;
-import org.apache.camel.Expression;
-import org.apache.camel.LoggingLevel;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
@@ -49,10 +47,10 @@ public class Rest0Controller {
                 String.format(template, name));
     }
 
-    @RequestMapping(value = "/employee/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+//    @RequestMapping(value = "/employee/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/employee/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
     public Employee getEmployee(@PathVariable Integer id) {
-        Employee employee = null;
-
+        Employee employee = new Employee();
 
         DateFormat dateFormat0 = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ss");
         DateFormat dateFormat1 = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ssz");
@@ -76,7 +74,7 @@ public class Rest0Controller {
 
         try {
             EmployeeDao employeeDao = new EmployeeDaoImpl();
-//            employee = employeeDao.getEmployee(id);
+            employee = employeeDao.getEmployee(id);
         }
         catch (Exception e) {
             LOGGER.error(">>>Fatal Error : " + e);
@@ -109,20 +107,22 @@ public class Rest0Controller {
 
                     from("file://C:/temp/camel_test_data/in?recursive=true&delete=false&delay=5000")
                             .routeId("route-wim-0")
+                            .log("Processing file [${file:onlyname}]")
                             .setHeader("header1", constant("value of header1"))
                             .setHeader("header2", constant("value of header2"))
                             .bean(camelDummy, "doSomething")
+                            .log(">>>Starting processing of message with id ${id}")
                             .log("body = " + "${body}")
                             .log("id = ${id}")
                             .log("header 1 = " + "${header.header1}")
                             .log("header 2 = ${header.header2}")
-                            .to("file://C:/temp/camel_test_data/out")
-                            .log("Message written to out directory");
+                            .choice()
+                                .when(body().contains("out1")).to("file://C:/temp/camel_test_data/out/out1")
+                                .when(body().contains("out2")).to("file://C:/temp/camel_test_data/out/out2")
+                                .otherwise().to("file://C:/temp/camel_test_data/out/other")
+                            .log("<<<Exiting processing of message with id ${id}");
                 }
 
-                private String method1(String dummy1) {
-                    return "dit is al te gek";
-                }
             });
             context.start();
             Thread.sleep(TEN_SECONDS);

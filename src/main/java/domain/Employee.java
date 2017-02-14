@@ -5,10 +5,12 @@ import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.HashMap;
 import java.util.Map;
 
 @Repository
+@XmlRootElement
 public class Employee {
 
     @NotNull
@@ -34,6 +36,9 @@ public class Employee {
     @NotNull
     @Length(min=1)
     protected String country2;
+
+    public Employee() {
+    }
 
     public String getCountry1() {
         return country1;
