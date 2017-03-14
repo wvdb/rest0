@@ -12,7 +12,7 @@ mvn spring-boot:run
 ```
 
 ### Testing locally
-The rest service can be easily tested with Postman.
+The REST service can be easily tested with Postman.
 
 Example of a request:
 ```sh
