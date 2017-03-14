@@ -16,22 +16,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @ResponseStatus(HttpStatus.OK)
 public class Rest0Controller {
 
-    private static final String template = "Hello, %s!";
+    private static final String TEMPLATE = "You are from %s!";
     public static final int TEN_SECONDS = 10000;
-    private final AtomicLong counter = new AtomicLong();
+    private static final AtomicLong COUNTER = new AtomicLong();
 
     @Autowired
     private CamelDummy camelDummy;
@@ -42,33 +37,13 @@ public class Rest0Controller {
     private String country;
 
     @RequestMapping(value = "/greeting", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Greeting greeting(@RequestParam(value = "commune1", defaultValue = "World") String name) {
-        return new Greeting(counter.incrementAndGet(),
-                String.format(template, name));
+    public Greeting greeting(@RequestParam(value = "commune", defaultValue = "Edegem") String commune) {
+        return new Greeting(COUNTER.incrementAndGet(), String.format(TEMPLATE, commune));
     }
 
-//    @RequestMapping(value = "/employee/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(value = "/employee/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
+    @RequestMapping(value = "/employee/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public Employee getEmployee(@PathVariable Integer id) {
         Employee employee = new Employee();
-
-        DateFormat dateFormat0 = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ss");
-        DateFormat dateFormat1 = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ssz");
-        DateFormat dateFormat2 = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ssZ");
-        DateFormat dateFormat3a = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ssXXX");
-
-        DateFormat dateFormat3b = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ssXXX");
-        dateFormat3b.setTimeZone(TimeZone.getTimeZone("America/New_York"));
-
-        Date date = new Date();
-        System.out.println("new SimpleDateFormat(\"yyyy/MM/dd'T'HH:mm:ss\")     " + dateFormat0.format(date));
-        System.out.println("new SimpleDateFormat(\"yyyy/MM/dd'T'HH:mm:ssz\")    " + dateFormat1.format(date));
-        System.out.println("new SimpleDateFormat(\"yyyy/MM/dd'T'HH:mm:ssZ\")    " + dateFormat2.format(date));
-        System.out.println("new SimpleDateFormat(\"yyyy/MM/dd'T'HH:mm:ssXXX\")  " + dateFormat3a.format(date));
-        System.out.println("new SimpleDateFormat(\"yyyy/MM/dd'T'HH:mm:ssXXX\") - timezone NY" + dateFormat3b.format(date));
-
-        Instant instant = Instant.now();
-        System.out.println(instant);
 
         LOGGER.debug("value van country = {}", country);
 

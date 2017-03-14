@@ -1,15 +1,9 @@
 package domain;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class Greeting {
 
     private long id;
     private String content;
-
-    public Greeting() {
-    }
 
     public Greeting(long id, String content) {
         this.id = id;

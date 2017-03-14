@@ -19,19 +19,6 @@ public class ApplicationConfig {
         return environment.getProperty("mongoClientURI");
     }
 
-//    @Bean
-//    public JavaMailBean myMailBean() {
-//        JavaMailBean javaMailBean = new JavaMailBean();
-//        javaMailBean.setMailSender(this.getMailSender());
-//    }
-//
-//    @Bean
-//    public JavaMailSenderImpl getMailSender() {
-//        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-//        javaMailSender.setHost("localhost");
-//        javaMailSender.setPort(8025);
-//    }
-
     @Bean
     @Profile("local")
     public ApplicationConfigBean applicationConfigBeanLocal() {
