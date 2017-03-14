@@ -24,6 +24,8 @@ import java.util.concurrent.atomic.AtomicLong;
 @ResponseStatus(HttpStatus.OK)
 public class Rest0Controller {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+
     private static final String TEMPLATE = "You are from %s!";
     public static final int TEN_SECONDS = 10000;
     private static final AtomicLong COUNTER = new AtomicLong();
@@ -31,13 +33,11 @@ public class Rest0Controller {
     @Autowired
     private CamelDummy camelDummy;
 
-    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-
     @Value("${country}")
     private String country;
 
     @RequestMapping(value = "/greeting", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Greeting greeting(@RequestParam(value = "commune", defaultValue = "Hoboken") String commune) {
+    public Greeting greeting(@RequestParam(value = "commune", defaultValue = "Edegem") String commune) {
         return new Greeting(COUNTER.incrementAndGet(), String.format(TEMPLATE, commune));
     }
 
