@@ -1,5 +1,25 @@
-.idea/
+# COMPILED CLASSES
+*.class
+
+# LOG FILES
+*.log
+
+# MAVEN
 target/
-rest0.iml
-rest0.log
-Maven__org_apache_camel_camel_core_2_9_0.xml
+
+# ECLIPSE
+.project
+.classpath
+.settings/
+
+# INTELLIJ
+.idea/
+*.iml
+
+# GIT
+*.orig
+
+# OS SPECIFIC
+.DS_Store
+
+# Project-specific
