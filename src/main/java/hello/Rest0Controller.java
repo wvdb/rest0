@@ -37,7 +37,7 @@ public class Rest0Controller {
     private String country;
 
     @RequestMapping(value = "/greeting", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Greeting greeting(@RequestParam(value = "commune", defaultValue = "Edegem") String commune) {
+    public Greeting greeting(@RequestParam(value = "commune", defaultValue = "Hoboken") String commune) {
         return new Greeting(COUNTER.incrementAndGet(), String.format(TEMPLATE, commune));
     }
 
