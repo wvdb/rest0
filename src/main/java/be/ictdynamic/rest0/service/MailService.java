@@ -1,4 +1,4 @@
-package service;
+package be.ictdynamic.rest0.service;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailParseException;

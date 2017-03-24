@@ -1,4 +1,4 @@
-package domain;
+package be.ictdynamic.rest0.domain;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.stereotype.Repository;

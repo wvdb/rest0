@@ -1,11 +1,11 @@
-package config;
+package be.ictdynamic.rest0.config;
 
-import domain.Greeting;
+import be.ictdynamic.rest0.domain.Greeting;
+import be.ictdynamic.rest0.service.MailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import service.MailService;
 
 import java.util.Properties;
 

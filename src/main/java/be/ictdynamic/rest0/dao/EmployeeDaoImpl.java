@@ -1,17 +1,17 @@
-package dao;
+package be.ictdynamic.rest0.dao;
 
 
+import be.ictdynamic.rest0.ApplicationConfig;
+import be.ictdynamic.rest0.config.MailConfig;
+import be.ictdynamic.rest0.config.MongoConfig;
+import be.ictdynamic.rest0.domain.Employee;
+import be.ictdynamic.rest0.domain.Greeting;
+import be.ictdynamic.rest0.service.MailService;
 import com.mongodb.*;
-import config.ApplicationConfig;
-import config.ApplicationConfigBean;
-import config.MailConfig;
-import domain.Employee;
-import domain.Greeting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import service.MailService;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -28,18 +28,17 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public List<Employee> getAllEmployees() throws UnknownHostException {
         LOGGER.debug("getAllEmployees() started");
 
-        ApplicationContext ctx =
-                new AnnotationConfigApplicationContext(ApplicationConfig.class);
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(ApplicationConfig.class);
 
-        ApplicationConfigBean applicationConfigBean = ctx.getBean(ApplicationConfigBean.class);
+        MongoConfig mongoConfig = applicationContext.getBean(MongoConfig.class);
 
         String mongoClientURIString = null;
 
-        LOGGER.debug("Value of mongoClientURIProperty = " + ctx.getBean("MongoClientURIProperty"));
+        LOGGER.debug("Value of mongoClientURIProperty = " + applicationContext.getBean("MongoClientURIProperty"));
 
-        LOGGER.debug("Value of applicationConfigBean = " + applicationConfigBean);
-        if (applicationConfigBean != null) {
-            mongoClientURIString = applicationConfigBean.getMongoClientURI();
+        LOGGER.debug("Value of applicationConfigBean = " + mongoConfig);
+        if (mongoConfig != null) {
+            mongoClientURIString = mongoConfig.getMongoClientURI();
         }
 
         LOGGER.debug("Value of mongoClientURI = " + mongoClientURIString);

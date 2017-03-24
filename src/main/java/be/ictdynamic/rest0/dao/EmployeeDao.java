@@ -1,6 +1,6 @@
-package dao;
+package be.ictdynamic.rest0.dao;
 
-import domain.Employee;
+import be.ictdynamic.rest0.domain.Employee;
 
 import java.net.UnknownHostException;
 import java.util.List;

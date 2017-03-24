@@ -1,6 +1,6 @@
-package config;
+package be.ictdynamic.rest0.config;
 
-public class ApplicationConfigBean {
+public class MongoConfig {
     private String mongoClientURI;
 
     public String getMongoClientURI() {

@@ -1,14 +1,14 @@
-package config;
+package be.ictdynamic.rest0;
 
+import be.ictdynamic.rest0.config.MongoConfig;
+import be.ictdynamic.rest0.domain.Dummy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
 @Configuration
-@PropertySource("classpath:/config/application.properties")
 public class ApplicationConfig {
 
     @Autowired
@@ -20,26 +20,32 @@ public class ApplicationConfig {
     }
 
     @Bean
+    public Dummy dummy() {
+        return new Dummy();
+    }
+
+    @Bean
     @Profile("local")
-    public ApplicationConfigBean applicationConfigBeanLocal() {
+    public MongoConfig applicationConfigBeanLocal() {
         String mongoClientURI;
-        ApplicationConfigBean applicationConfigBean = new ApplicationConfigBean();
+        MongoConfig mongoConfig = new MongoConfig();
         if (environment != null) {
             mongoClientURI = environment.getProperty("mongoClientURI.local");
-            applicationConfigBean.setMongoClientURI(mongoClientURI);
+            mongoConfig.setMongoClientURI(mongoClientURI);
         }
-        return applicationConfigBean;
+        return mongoConfig;
     }
 
     @Bean
     @Profile("cloud")
-    public ApplicationConfigBean applicationConfigBeanCloud() {
+    public MongoConfig applicationConfigBeanCloud() {
         String mongoClientURI;
-        ApplicationConfigBean applicationConfigBean = new ApplicationConfigBean();
+        MongoConfig mongoConfig = new MongoConfig();
         if (environment != null) {
             mongoClientURI = environment.getProperty("mongoClientURI.cloud");
-            applicationConfigBean.setMongoClientURI(mongoClientURI);
+            mongoConfig.setMongoClientURI(mongoClientURI);
         }
-        return applicationConfigBean;
+        return mongoConfig;
     }
+
 }

@@ -1,4 +1,4 @@
-package hello;
+package be.ictdynamic.rest0.hello;
 
 import org.springframework.stereotype.Component;
 

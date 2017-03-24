@@ -1,9 +1,10 @@
-package hello;
+package be.ictdynamic.rest0.hello;
 
-import dao.EmployeeDao;
-import dao.EmployeeDaoImpl;
-import domain.Employee;
-import domain.Greeting;
+import be.ictdynamic.rest0.dao.EmployeeDao;
+import be.ictdynamic.rest0.dao.EmployeeDaoImpl;
+import be.ictdynamic.rest0.domain.Dummy;
+import be.ictdynamic.rest0.domain.Employee;
+import be.ictdynamic.rest0.domain.Greeting;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @ResponseStatus(HttpStatus.OK)
+@PropertySource("classpath:/application.properties")
 public class Rest0Controller {
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
@@ -33,11 +36,15 @@ public class Rest0Controller {
     @Autowired
     private CamelDummy camelDummy;
 
+    @Autowired
+    private Dummy dummy;
+
     @Value("${country}")
     private String country;
 
     @RequestMapping(value = "/greeting", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Greeting greeting(@RequestParam(value = "commune", defaultValue = "Edegem") String commune) {
+        dummy.setAchternaam("");
         return new Greeting(COUNTER.incrementAndGet(), String.format(TEMPLATE, commune));
     }
 
