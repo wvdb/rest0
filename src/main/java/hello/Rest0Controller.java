@@ -5,7 +5,6 @@ import dao.EmployeeDaoImpl;
 import domain.Employee;
 import domain.Greeting;
 import org.apache.camel.CamelContext;
-import org.apache.camel.LoggingLevel;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
@@ -19,10 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
@@ -40,11 +36,17 @@ public class Rest0Controller {
 
     @RequestMapping(value = "/greeting", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Greeting greeting(@RequestParam(value = "commune1", defaultValue = "World") String name) {
+        String landenArray[] = new String[]{"Belgi�", "Nederland", "Duitsland"};
+        List<String> landen = Arrays.asList(landenArray);
+
+        boolean b1 = landen.stream().anyMatch(land -> "Nederland".equals(land));
+        boolean b2 = landen.stream().anyMatch(land -> "Schotland".equals(land));
+
         return new Greeting(counter.incrementAndGet(),
                 String.format(template, name));
     }
 
-    @RequestMapping(value = "/employee/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/employee/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public Employee getEmployee(@PathVariable Integer id) {
         Employee employee = null;
 

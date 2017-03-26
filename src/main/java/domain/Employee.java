@@ -35,6 +35,20 @@ public class Employee {
     @Length(min=1)
     protected String country2;
 
+    @NotNull
+    protected Double latitude;
+
+    @NotNull
+    protected Double longitude;
+
+    @NotNull
+    @Size(min = 1)
+    protected Map<String, Integer> durationMap = new HashMap<>();
+
+    @NotNull
+    @Size(min = 1)
+    protected Map<String, Integer> distanceMap = new HashMap<>();
+
     public String getCountry1() {
         return country1;
     }
@@ -66,20 +80,6 @@ public class Employee {
     public void setCountry2(String country2) {
         this.country2 = country2;
     }
-
-    @NotNull
-    protected Double latitude;
-
-    @NotNull
-    protected Double longitude;
-
-    @NotNull
-    @Size(min=1)
-    protected Map<String, Integer> durationMap = new HashMap<>();
-
-    @NotNull
-    @Size(min=1)
-    protected Map<String, Integer> distanceMap = new HashMap<>();
 
     public Employee(String commune1, String address1, String country1, String commune2, String address2, String country2, Double latitude, Double longitude, Map<String, Integer> durationMap, Map<String, Integer> distanceMap) {
         this.commune1 = commune1;
